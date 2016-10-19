@@ -1,17 +1,32 @@
+[github]
+  user = irmiller22
+
+[user]
+  name = Ian Miller
+  email = irmiller22@gmail.com
+
 [core]
   whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
-	excludesfile = /Users/ianmiller/.gitignore_global
-	editor = vim
+  excludesfile = ~/.gitignore_global
+  editor = vim
+  filemode = false
+  trustctime = false
+  autocrlf = input
+
 [alias]
   st = status
   ci = commit
   br = branch
   co = checkout
   df = diff
-	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  l = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  ll = log --pretty=oneline --graph --abbrev-commit
+  lm = log --pretty=format:'* %s (%h)'
+  lg = log -p
   who = shortlog -s --
   up = pull
   pr = pull --rebase
+  amend = commit --amend --reuse-message=HEAD
   pu = !"git fetch origin -v; git fetch upstream -v; git merge upstream/master"
   switch = !legit switch \"$@\"
   branches = !legit branches
@@ -21,37 +36,51 @@
   sync = !legit sync \"$@\"
   publish = !legit publish \"$@\"
   graft = !legit graft \"$@\"
-[github]
-  user = irmiller22
-  token = <API token> # https://github.com/settings/applications
-  email = irmiller22@gmail.com
-[github "user"]
-  user = irmiller22
-  token = 3cf5ab943d33d98725cf314b076f82634cf88dc2
-  email = irmiller22@gmail.com
-[user]
-	name = Ian Miller
-  email = irmiller22@gmail.com
+  unstage = reset --hard HEAD
+
 [color]
-  ui = true
-  diff = auto
-  status = auto
-  branch = auto
-[format]
-  pretty = %C(yellow)%h%Creset %s %C(red)(%an, %cr)%Creset
-[diff "ruby"]
-  funcname = ^ *\\(\\(class\\|module\\|def\\) .*\\)
-[push]
-  default = current
-[difftool "sourcetree"]
-  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-  path =
-[mergetool "sourcetree"]
-  cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-  trustExitCode = true
-[merge]
-  tool = opendiff
+  ui = auto
+
+[color "branch"]
+  current = yellow reverse
+  local = yellow
+  remote = green
+
+[color "diff"]
+  meta = yellow bold
+  frag = magenta bold
+  old = red bold
+  new = green bold
+
+[color "status"]
+  added = yellow
+  changed = green
+  untracked = cyan
+
+[color "diff-highlight"]
+  oldNormal = "red bold"
+  oldHighlight = "red bold 52"
+  newNormal = "green bold"
+  newHighlight = "green bold 22"
+
 [credential]
-	helper = osxkeychain
-[heroku]
-	account = flatiron
+  helper = osxkeychain
+
+[grep]
+  lineNumber = true
+
+[help]
+  autocorrect = 1
+
+[difftool]
+  prompt = false
+
+[mergetool]
+  prompt = false
+
+[push]
+  default = simple
+  followTags = true
+
+[fetch]
+  prune = true

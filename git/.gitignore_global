@@ -1,18 +1,15 @@
-# DS STore
+# DS Store
 .DS_Store
 
 # Virtualenv
-
 .Python
 pip-selfcheck.json
 
 # Self-Signed SSL Certs
-
 server.key
 server.csr
 server.crt
 
 # Hubot
-
 .hubot_history
 
