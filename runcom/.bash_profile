@@ -1,70 +1,56 @@
-export CLICOLOR=1
-export LSCOLORS=ExFxCxDxBxegedabagacad
+# If not running interactively, don't do anything
 
-# Environment Variables
-# =====================
-  # Library Paths
-  # These variables tell your shell where they can find certain
-  # required libraries so other programs can reliably call the variable name
-  # instead of a hardcoded path.
+[ -z "$PS1" ] && return
 
-    # NODE_PATH
-    # Node Path from Homebrew I believe
-    export NODE_PATH="/usr/local/lib/node_modules:$NODE_PATH"
+# OS
 
-    # PYTHON_SHARE
-    # Python Shared Path from Homebrew I believe
-    export PYTHON_SHARE='/usr/local/bin/python'
+if [ "$(uname -s)" = "Darwin" ]; then
+  OS="OSX"
+else
+  OS=$(uname -s)
+fi
 
-    # Those NODE & Python Paths won't break anything even if you
-    # don't have NODE or Python installed. Eventually you will and
-    # then you don't have to update your bash_profile
+# Resolve DOTFILES_DIR (assuming ~/.dotfiles on distros without readlink and/or $BASH_SOURCE/$0)
+READLINK=$(which greadlink || which readlink)
+CURRENT_SCRIPT=$BASH_SOURCE
 
-    # ELIXIR_PATH
-    export ELIXIR_PATH="/usr/local/bin/elixir"
+if [[ -n $CURRENT_SCRIPT && -x "$READLINK" ]]; then
+  SCRIPT_PATH=$($READLINK -f "$CURRENT_SCRIPT")
+  DOTFILES_DIR=$(dirname "$(dirname "$SCRIPT_PATH")")
+elif [ -d "$HOME/.dotfiles" ]; then
+  DOTFILES_DIR="$HOME/.dotfiles"
+else
+  echo "Unable to find dotfiles, exiting."
+  return # `exit 1` would quit the shell itself
+fi
 
-    # GO_PATH
-    export GO_PATH="/usr/local/go/bin/go"
+# Finally we can source the dotfiles (order matters)
+for DOTFILE in "$DOTFILES_DIR"/system/.{function,function_*,path,env,alias,completion,grep,prompt,nvm,rvm,custom}; do
+  [ -f "$DOTFILE" ] && . "$DOTFILE"
+done
 
-  # Paths
+if [ "$OS" = "OSX" ]; then
+  for DOTFILE in "$DOTFILES_DIR"/system/.{env,alias,function}.osx; do
+    [ -f "$DOTFILE" ] && . "$DOTFILE"
+  done
+fi
 
-    # The USR_PATHS variable will just store all relevant /usr paths for easier usage
-    # Each path is seperate via a : and we always use absolute paths.
+# Set LSCOLORS
+eval "$(dircolors "$DOTFILES_DIR"/system/.dir_colors)"
 
-    # A bit about the /usr directory
-    # The /usr directory is a convention from linux that creates a common place to put
-    # files and executables that the entire system needs access too. It tries to be user
-    # independent, so whichever user is logged in should have permissions to the /usr directory.
-    # We call that /usr/local. Within /usr/local, there is a bin directory for actually
-    # storing the binaries (programs) that our system would want.
-    # Also, Homebrew adopts this convetion so things installed via Homebrew
-    # get symlinked into /usr/local
-    export USR_PATHS="/usr/local:/usr/local/sbin:/usr/bin"
+# Hook for extra/custom stuff
+EXTRA_DIR="$HOME/.extra"
 
-    export POSTGRES_PATH="/Applications/Postgres.app/Contents/Versions/latest/bin"
-    export MYSQL_PATH="/usr/local/bin/mysql"
-    # Our PATH variable is special and very important. Whenever we type a command into our shell,
-    # it will try to find that command within a directory that is defined in our PATH.
-    # Read http://blog.seldomatt.com/blog/2012/10/08/bash-and-the-one-true-path/ for more on that.
+if [ -d "$EXTRA_DIR" ]; then
+  for EXTRAFILE in "$EXTRA_DIR"/runcom/*.sh; do
+    [ -f "$EXTRAFILE" ] && . "$EXTRAFILE"
+  done
+fi
 
-    export PATH="/usr/local/bin:$USR_PATHS:$PATH:$GO_PATH:$PYTHON_SHARE:$ELIXIR_PATH:$POSTGRES_PATH:$MYSQL_PATH"
+# Clean up
 
-# Final Configurations and Plugins
-# =====================
-  # Git Bash Completion
-  # Will activate bash git completion if installed
-  # via homebrew
-  if [ -f `brew --prefix`/etc/bash_completion ]; then
-    . `brew --prefix`/etc/bash_completion
+unset READLINK CURRENT_SCRIPT SCRIPT_PATH DOTFILE
 
-    # Git completion aliases
-    __git_complete g __git_main
-    __git_complete gco _git_checkout
-    __git_complete gm __git_merge
-    __git_complete gp _git_pull
-    __git_complete gb _git_branch
-    __git_complete gbd _git_branch -D
-  fi
+# Export
 
-source ~/.profile
-source ~/.venv_config
+export OS DOTFILES_DIR EXTRA_DIR
