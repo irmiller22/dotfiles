@@ -1,0 +1,32 @@
+# Aliases
+
+# LS
+alias l='ls -lah'
+
+# hotlanta
+alias hot='cd ~/Development/code/percolate/devolate/hotlanta'
+
+# rosetta
+alias rose='cd ~/Development/code/percolate/devolate/rosetta'
+
+# desktop
+alias desktop='cd ~/Desktop/'
+
+# Git
+alias g="git"
+alias gst="git status"
+alias gco="git checkout"
+alias gp="git pull"
+alias gm="git merge"
+alias gd="git diff | mate"
+alias gc="git commit -v"
+alias gf="git fetch"
+alias gci="git commit -m"
+alias gca="git commit -v -a"
+alias gb="git branch"
+alias gba="git branch -a"
+alias add="git add ."
+alias gbd="git branch -D"
+alias gbrd="git branch -r -d"
+alias remote="git remote -v"
+alias diff="git diff"
