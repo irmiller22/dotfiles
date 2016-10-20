@@ -12,9 +12,11 @@ apps=(
   google-chrome
   google-chrome-canary
   google-drive
+  iterm2
   kindle
   macdown
   postgres
+  sqlpro-for-mysql
   sqlpro-for-postgres
   slate
   slack

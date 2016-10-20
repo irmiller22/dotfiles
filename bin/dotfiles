@@ -15,7 +15,6 @@ sub_help () {
   echo "   clean            Clean up caches (brew, npm, gem, rvm)"
   echo "   macos            Apply MacOS system defaults"
   echo "   dock             Apply MacOS Dock settings"
-  echo "   install vundle   Install Vundle"
 }
 
 sub_edit () {
@@ -31,6 +30,7 @@ sub_update () {
   sudo softwareupdate -i -a
   brew update
   brew upgrade
+  brew list -1 | while read line; do brew unlink $line; brew link --force $line; done
   npm install npm -g
   npm update -g
   gem update --system
