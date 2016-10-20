@@ -5,6 +5,7 @@ brew tap caskroom/versions
 
 # Install packages
 apps=(
+  1password
   alfred
   dash
   dropbox
@@ -12,10 +13,14 @@ apps=(
   google-chrome
   google-chrome-canary
   google-drive
+  kindle
   macdown
+  postgres
+  sqlpro-for-postgres
+  slate
   slack
-  spotify
   sublime-text3
+  tunnelblick
   virtualbox
 )
 
