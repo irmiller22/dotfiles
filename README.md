@@ -35,12 +35,10 @@ Or, using wget:
        help             This help message
        edit             Open dotfiles in editor ($EDITOR_ALT) and Git GUI ($GIT_GUI)
        reload           Reload dotfiles
-       test             Run tests
        update           Update packages and pkg managers (OS, brew, npm, gem, pip)
        clean            Clean up caches (brew, npm, gem, rvm)
        osx              Apply OS X system defaults
        dock             Apply OS X Dock settings
-       install vundle   Install Vundle
 
 ## Customize/extend
 
