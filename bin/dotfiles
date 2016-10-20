@@ -11,7 +11,6 @@ sub_help () {
   echo "   help             This help message"
   echo "   edit             Open dotfiles in editor ($EDITOR_ALT) and Git GUI ($GIT_GUI)"
   echo "   reload           Reload dotfiles"
-  echo "   test             Run tests"
   echo "   update           Update packages and pkg managers (OS, brew, npm, gem, pip)"
   echo "   clean            Clean up caches (brew, npm, gem, rvm)"
   echo "   macos            Apply MacOS system defaults"
@@ -26,10 +25,6 @@ sub_edit () {
 
 sub_reload () {
   . ~/.bash_profile && echo "Bash reloaded."
-}
-
-sub_test () {
-  bats "$DOTFILES_DIR"/test/*.bats
 }
 
 sub_update () {

@@ -26,9 +26,6 @@ if [ "$(uname)" == "Darwin" ]; then
   . "$DOTFILES_DIR/install/gem.sh"
 fi
 
-# Run tests
-bats test/*.bats
-
 # Install extra stuff
 if [ -d "$EXTRA_DIR" -a -f "$EXTRA_DIR/install.sh" ]; then
   . "$EXTRA_DIR/install.sh"
