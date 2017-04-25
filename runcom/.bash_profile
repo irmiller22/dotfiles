@@ -47,6 +47,19 @@ if [ -d "$EXTRA_DIR" ]; then
   done
 fi
 
+# Bash Completion
+if [ -f $(brew --prefix)/share/bash-completion/bash_completion ]; then
+  . $(brew --prefix)/share/bash-completion/bash_completion
+
+  # Git completion aliases
+  __git_complete g __git_main
+  __git_complete gco _git_checkout
+  __git_complete gm __git_merge
+  __git_complete gp _git_pull
+  __git_complete gb _git_branch
+  __git_complete gbd _git_branch -D
+fi
+
 # Clean up
 
 unset READLINK CURRENT_SCRIPT SCRIPT_PATH DOTFILE

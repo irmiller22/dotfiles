@@ -24,6 +24,7 @@ apps=(
   httpie
   imagemagick
   jq
+  node
   peco
   psgrep
   python
