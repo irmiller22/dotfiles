@@ -24,6 +24,10 @@ else
   return # `exit 1` would quit the shell itself
 fi
 
+# Read cache
+DOTFILES_CACHE="$DOTFILES_DIR/.cache.sh"
+[ -f "$DOTFILES_CACHE" ] && . "$DOTFILES_CACHE"
+
 # Finally we can source the dotfiles (order matters)
 for DOTFILE in "$DOTFILES_DIR"/system/.{function,function_*,path,env,alias,grep,prompt,nvm,rvm,custom}; do
   [ -f "$DOTFILE" ] && . "$DOTFILE"
