@@ -13,3 +13,6 @@ server.crt
 # Hubot
 .hubot_history
 
+# PyCharm
+.idea
+
