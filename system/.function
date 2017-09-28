@@ -1,12 +1,26 @@
+# Switch long/short prompt
+
+ps0() {
+  unset PROMPT_COMMAND
+  PS1='$ '
+}
+
+ps1() {
+  source "$DOTFILES_DIR"/system/.prompt
+}
+
 # Get named var (usage: get "VAR_NAME")
+
 get() {
   echo "${!1}"
 }
 
-# Executable
+# Feature detection
+
+is-macos() { [[ "$OSTYPE" =~ ^darwin ]] || return 1; }
+
 is-executable() {
-  local BIN=$(command -v "$1" 2>/dev/null)
-  if [[ ! $BIN == "" && -x $BIN ]]; then true; else false; fi
+  type "$1" > /dev/null 2>&1 || return 1;
 }
 
 is-supported() {
@@ -22,11 +36,27 @@ is-supported() {
 }
 
 # Add to path
+
 prepend-path() {
   [ -d $1 ] && PATH="$1:$PATH"
 }
 
+# Update config file
+
+set-config() {
+  local KEY="$1"
+  local VALUE="$2"
+  local FILE="$3"
+  touch "$FILE"
+  if grep -q "$1=" "$FILE"; then
+    sed "s@$KEY=.*@$KEY=\"$VALUE\"@" -i "$FILE"
+  else
+    echo "export $KEY=$VALUE" >> "$FILE"
+  fi
+}
+
 # Show 256 TERM colors
+
 colors() {
   local X=$(tput op)
   local Y=$(printf %$((COLUMNS-6))s)
@@ -37,12 +67,25 @@ colors() {
 }
 
 # Calculator
+
 calc() {
   echo "$*" | bc -l;
 }
 
 # Weather
+
 meteo() {
-  local CITY=${1:-Utrecht}
-  curl -4 "wttr.in/$CITY"
+  local LOCALE=`echo ${LANG:-en} | cut -c1-2`
+  if [ $# -eq 0 ]; then
+    local LOCATION=`curl -s ipinfo.io/loc`
+  else
+    local LOCATION=$1
+  fi
+  curl -s "$LOCALE.wttr.in/$LOCATION"
+}
+
+# Markdown
+
+md() {
+  pandoc $1 | lynx -stdin -dump
 }
