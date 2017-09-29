@@ -1,6 +1,9 @@
 # DS Store
 .DS_Store
 
+# Dotfiles
+.cache.sh
+
 # Virtualenv
 .Python
 pip-selfcheck.json

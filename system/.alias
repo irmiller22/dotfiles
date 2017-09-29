@@ -4,11 +4,15 @@
 alias l='ls -lah'
 alias ls='ls $LS_OPTIONS'
 
-# hotlanta
-alias hot='cd ~/Development/code/percolate/devolate/hotlanta'
+# reload
+alias reload="source ~/.bash_profile"
 
-# rosetta
-alias rose='cd ~/Development/code/percolate/devolate/rosetta'
+# percolate
+alias hot='cd ~/Development/percolate/devolate/hotlanta'
+alias rose='cd ~/Development/percolate/devolate/rosetta'
+
+# code
+alias code='cd ~/Development/'
 
 # desktop
 alias desktop='cd ~/Desktop/'

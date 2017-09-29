@@ -27,6 +27,11 @@ if [ "$(uname)" == "Darwin" ]; then
   . "$DOTFILES_DIR/install/gem.sh"
 fi
 
+# Install cache file
+if [ ! -e "$DOTFILES_CACHE" ] ; then
+  touch "$DOTFILES_CACHE"
+fi
+
 # Install extra stuff
 if [ -d "$EXTRA_DIR" -a -f "$EXTRA_DIR/install.sh" ]; then
   . "$EXTRA_DIR/install.sh"
