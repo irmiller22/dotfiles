@@ -20,7 +20,7 @@ DOTFILES_CACHE="$DOTFILES_DIR/.cache.sh"
 [ -f "$DOTFILES_CACHE" ] && . "$DOTFILES_CACHE"
 
 # Finally we can source the dotfiles (order matters)
-for DOTFILE in "$DOTFILES_DIR"/system/.{function,function_*,path,env,alias,grep,prompt,nvm,rvm,gitk}; do
+for DOTFILE in "$DOTFILES_DIR"/system/.{function,function_*,path,env,alias,grep,prompt,nvm,rvm}; do
   [ -f "$DOTFILE" ] && . "$DOTFILE"
 done
 
