@@ -10,6 +10,7 @@ alias reload="source ~/.bash_profile"
 # percolate
 alias hot='cd ~/Development/percolate/devolate/hotlanta'
 alias rose='cd ~/Development/percolate/devolate/rosetta'
+alias d3='cd ~/Development/percolate/devolate/d3'
 
 # code
 alias code='cd ~/Development/'
@@ -35,3 +36,7 @@ alias gbd="git branch -D"
 alias gbrd="git branch -r -d"
 alias remote="git remote -v"
 alias diff="git diff"
+
+# Python
+alias python=python2
+

@@ -13,6 +13,9 @@ server.key
 server.csr
 server.crt
 
+# NPM
+npm-debug.log
+
 # Hubot
 .hubot_history
 
