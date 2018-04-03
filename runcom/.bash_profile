@@ -20,7 +20,7 @@ DOTFILES_CACHE="$DOTFILES_DIR/.cache.sh"
 [ -f "$DOTFILES_CACHE" ] && . "$DOTFILES_CACHE"
 
 # Finally we can source the dotfiles (order matters)
-for DOTFILE in "$DOTFILES_DIR"/system/.{function,function_*,path,env,alias,grep,prompt,nvm,rvm}; do
+for DOTFILE in "$DOTFILES_DIR"/system/.{function,function_*,path,env,alias,grep,prompt,nvm,rvm,gitk}; do
   [ -f "$DOTFILE" ] && . "$DOTFILE"
 done
 
@@ -61,3 +61,4 @@ unset READLINK CURRENT_SCRIPT SCRIPT_PATH DOTFILE EXTRAFILE
 # Export
 export DOTFILES_DIR DOTFILES_EXTRA_DIR
 source ~/.profile
+
