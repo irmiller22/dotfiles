@@ -36,7 +36,3 @@ alias gbd="git branch -D"
 alias gbrd="git branch -r -d"
 alias remote="git remote -v"
 alias diff="git diff"
-
-# Python
-alias python=python2
-
