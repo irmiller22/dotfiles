@@ -22,3 +22,6 @@ npm-debug.log
 # PyCharm
 .idea
 
+# VS Code
+.vscode
+

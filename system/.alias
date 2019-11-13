@@ -7,14 +7,6 @@ alias ls='ls $LS_OPTIONS'
 # reload
 alias reload="source ~/.bash_profile"
 
-# percolate
-alias hot='cd ~/Development/percolate/devolate/hotlanta'
-alias rose='cd ~/Development/percolate/devolate/rosetta'
-alias d3='cd ~/Development/percolate/devolate/d3'
-
-# code
-alias code='cd ~/Development/'
-
 # desktop
 alias desktop='cd ~/Desktop/'
 
