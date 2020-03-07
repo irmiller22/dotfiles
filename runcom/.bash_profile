@@ -30,14 +30,25 @@ if is-macos; then
   done
 fi
 
+if [ ! -f "~/.slate" ]; then
+  cp "$DOTFILES_DIR"/system/.slate ~/.slate
+fi
+
 # Set LSCOLORS
 eval "$(dircolors "$DOTFILES_DIR"/system/.dir_colors)"
 
 # Bash Completion
-if [ -f $(brew --prefix)/share/bash-completion/bash_completion ]; then
-  . $(brew --prefix)/share/bash-completion/bash_completion
+if type brew &>/dev/null; then
+  HOMEBREW_PREFIX="$(brew --prefix)"
+  if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
+    source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+  else
+    for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*; do
+      [[ -r "$COMPLETION" ]] && source "$COMPLETION"
+    done
+  fi
 
-  # Git completion aliases
+    # Git completion aliases
   __git_complete g __git_main
   __git_complete gco _git_checkout
   __git_complete gm __git_merge
@@ -61,4 +72,13 @@ unset READLINK CURRENT_SCRIPT SCRIPT_PATH DOTFILE EXTRAFILE
 # Export
 export DOTFILES_DIR DOTFILES_EXTRA_DIR
 source ~/.profile
+
+# infra/kubernetes
+export PATH="$HOME/.poetry/bin:$PATH"
+
+function iterm2_print_user_vars() {
+  iterm2_set_user_var kubecontext $(kubectl config current-context)
+}
+
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 

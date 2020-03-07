@@ -1,22 +1,20 @@
 # Aliases
 
-# LS
-alias l='ls -lah'
-alias ls='ls $LS_OPTIONS'
-
 # reload
 alias reload="source ~/.bash_profile"
 
-# percolate
-alias hot='cd ~/Development/percolate/devolate/hotlanta'
-alias rose='cd ~/Development/percolate/devolate/rosetta'
-alias d3='cd ~/Development/percolate/devolate/d3'
-
 # code
-alias code='cd ~/Development/'
+alias dev='cd ~/Development/'
+
+# personal
+alias pers='cd ~/Development/personal/'
+alias tama='cd ~/Development/personal/tamagotchi'
 
 # desktop
 alias desktop='cd ~/Desktop/'
+
+# codelog
+alias clog='cd ~/Development/personal/codelog'
 
 # Git
 alias g="git"
@@ -36,7 +34,4 @@ alias gbd="git branch -D"
 alias gbrd="git branch -r -d"
 alias remote="git remote -v"
 alias diff="git diff"
-
-# Python
-alias python=python2
 

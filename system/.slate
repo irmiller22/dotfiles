@@ -1,0 +1,34 @@
+# Slate configs for IRM
+
+config defaultToCurrentScreen true
+config nudgePercentOf screenSize
+config resizePercentOf screenSize
+
+# Resize Bindings
+bind right:ctrl;alt  resize -10% +0 bottom-right
+bind left:ctrl;alt   resize +10% +0 bottom-right
+bind up:ctrl;alt     resize +0   +10% bottom-right
+bind down:ctrl;alt   resize +0   -10% bottom-right
+
+# Push Bindings
+bind 3:alt           push right bar-resize:screenSizeX/2
+bind 2:alt           push left  bar-resize:screenSizeX/2
+# Fullscreen
+alias full move screenOriginX;screenOriginY screenSizeX;screenSizeY
+bind 1:alt           ${full}
+
+# Throw Bindings
+bind 1:ctrl;alt         throw 0 resize
+bind 2:ctrl;alt         throw 1 resize
+bind 3:ctrl;alt         throw 2 resize
+bind right:ctrl;alt;cmd throw right resize
+bind left:ctrl;alt;cmd  throw left  resize
+bind up:ctrl;alt;cmd    throw up    resize
+bind down:ctrl;alt;cmd  throw down  resize
+
+# Focus Bindings
+bind up:cmd;alt   focus behind
+bind down:cmd;alt focus behind
+
+# Window Hints
+bind esc:cmd hint
