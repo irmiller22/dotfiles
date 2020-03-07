@@ -20,7 +20,7 @@ DOTFILES_CACHE="$DOTFILES_DIR/.cache.sh"
 [ -f "$DOTFILES_CACHE" ] && . "$DOTFILES_CACHE"
 
 # Finally we can source the dotfiles (order matters)
-for DOTFILE in "$DOTFILES_DIR"/system/.{function,function_*,path,env,alias,grep,prompt,nvm,rvm,slate}; do
+for DOTFILE in "$DOTFILES_DIR"/system/.{function,function_*,path,env,alias,grep,prompt,nvm,rvm}; do
   [ -f "$DOTFILE" ] && . "$DOTFILE"
 done
 
@@ -30,21 +30,32 @@ if is-macos; then
   done
 fi
 
+if [ ! -f "~/.slate" ]; then
+  cp "$DOTFILES_DIR"/system/.slate ~/.slate
+fi
+
 # Set LSCOLORS
 eval "$(dircolors "$DOTFILES_DIR"/system/.dir_colors)"
 
 # Bash Completion
-export BASH_COMPLETION_COMPAT_DIR="$(brew --prefix)/etc/bash_completion.d"
-[[ -r "$(brew --prefix)/etc/profile.d/bash_completion.sh" ]] && . "$(brew --prefix)/etc/profile.d/bash_completion.sh"
+if type brew &>/dev/null; then
+  HOMEBREW_PREFIX="$(brew --prefix)"
+  if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
+    source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+  else
+    for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*; do
+      [[ -r "$COMPLETION" ]] && source "$COMPLETION"
+    done
+  fi
 
-# Git completion aliases
-__git_complete g __git_main
-__git_complete gco _git_checkout
-__git_complete gm __git_merge
-__git_complete gp _git_pull
-__git_complete gb _git_branch
-__git_complete gbd _git_branch -D
-
+    # Git completion aliases
+  __git_complete g __git_main
+  __git_complete gco _git_checkout
+  __git_complete gm __git_merge
+  __git_complete gp _git_pull
+  __git_complete gb _git_branch
+  __git_complete gbd _git_branch -D
+fi
 
 # Hook for extra/custom stuff
 DOTFILES_EXTRA_DIR="$HOME/.extra"
