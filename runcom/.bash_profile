@@ -20,7 +20,7 @@ DOTFILES_CACHE="$DOTFILES_DIR/.cache.sh"
 [ -f "$DOTFILES_CACHE" ] && . "$DOTFILES_CACHE"
 
 # Finally we can source the dotfiles (order matters)
-for DOTFILE in "$DOTFILES_DIR"/system/.{function,function_*,path,env,alias,grep,prompt,nvm,rvm}; do
+for DOTFILE in "$DOTFILES_DIR"/system/.{function,function_*,path,env,alias,grep,prompt,nvm,rvm,slate}; do
   [ -f "$DOTFILE" ] && . "$DOTFILE"
 done
 
@@ -34,17 +34,17 @@ fi
 eval "$(dircolors "$DOTFILES_DIR"/system/.dir_colors)"
 
 # Bash Completion
-if [ -f $(brew --prefix)/share/bash-completion/bash_completion ]; then
-  . $(brew --prefix)/share/bash-completion/bash_completion
+export BASH_COMPLETION_COMPAT_DIR="$(brew --prefix)/etc/bash_completion.d"
+[[ -r "$(brew --prefix)/etc/profile.d/bash_completion.sh" ]] && . "$(brew --prefix)/etc/profile.d/bash_completion.sh"
 
-  # Git completion aliases
-  __git_complete g __git_main
-  __git_complete gco _git_checkout
-  __git_complete gm __git_merge
-  __git_complete gp _git_pull
-  __git_complete gb _git_branch
-  __git_complete gbd _git_branch -D
-fi
+# Git completion aliases
+__git_complete g __git_main
+__git_complete gco _git_checkout
+__git_complete gm __git_merge
+__git_complete gp _git_pull
+__git_complete gb _git_branch
+__git_complete gbd _git_branch -D
+
 
 # Hook for extra/custom stuff
 DOTFILES_EXTRA_DIR="$HOME/.extra"
@@ -61,4 +61,13 @@ unset READLINK CURRENT_SCRIPT SCRIPT_PATH DOTFILE EXTRAFILE
 # Export
 export DOTFILES_DIR DOTFILES_EXTRA_DIR
 source ~/.profile
+
+# infra/kubernetes
+export PATH="$HOME/.poetry/bin:$PATH"
+
+function iterm2_print_user_vars() {
+  iterm2_set_user_var kubecontext $(kubectl config current-context)
+}
+
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 

@@ -1,0 +1,37 @@
+{
+    "telemetry.enableTelemetry": false,
+    "files.autoSave": "afterDelay",
+    "gitlens.advanced.messages": {
+        "suppressLineUncommittedWarning": true,
+        "suppressShowKeyBindingsNotice": true
+    },
+    "window.zoomLevel": 0,
+    "files.trimTrailingWhitespace": true,
+    "terminal.integrated.scrollback": 20000,
+    "workbench.editor.showTabs": true,
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/*.pyc": true
+    },
+    "window.title": "${activeEditorMedium}",
+    "gitlens.historyExplorer.enabled": true,
+    "python.pythonPath": "python3",
+    "gitlens.views.fileHistory.enabled": true,
+    "gitlens.views.lineHistory.enabled": true,
+    "editor.minimap.enabled": true,
+    "workbench.activityBar.visible": true,
+    "python.formatting.provider": "black",
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveTimeout": 5500,
+    "go.useLanguageServer": true,
+    "workbench.colorTheme": "Monokai",
+    "files.insertFinalNewline": true,
+    "terminal.external.osxExec": "iTerm.app",
+    "editor.wordWrap": "on",
+    "[python]": {},
+    "explorer.confirmDelete": false
+}
