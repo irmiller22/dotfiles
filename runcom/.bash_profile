@@ -35,7 +35,7 @@ if [ ! -f "~/.slate" ]; then
 fi
 
 # Set LSCOLORS
-eval "$(dircolors "$DOTFILES_DIR"/system/.dir_colors)"
+eval "$(gdircolors "$DOTFILES_DIR"/system/.dir_colors)"
 
 # Bash Completion
 if type brew &>/dev/null; then

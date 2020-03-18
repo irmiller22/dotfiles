@@ -6,15 +6,18 @@ alias reload="source ~/.bash_profile"
 # code
 alias dev='cd ~/Development/'
 
-# personal
-alias pers='cd ~/Development/personal/'
-alias tama='cd ~/Development/personal/tamagotchi'
+# codelog
+alias clog='cd ~/Development/codelog'
 
 # desktop
 alias desktop='cd ~/Desktop/'
 
-# codelog
-alias clog='cd ~/Development/personal/codelog'
+# personal
+alias pers='cd ~/Development/personal/'
+alias tama='cd ~/Development/personal/tamagotchi'
+
+# pillar
+alias pillar='cd ~/Development/pillar/'
 
 # Git
 alias g="git"

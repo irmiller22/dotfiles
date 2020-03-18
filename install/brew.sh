@@ -14,8 +14,8 @@ apps=(
   fasd
   gifsicle
   git
-  gnu-sed --with-default-names
-  grep --with-default-names
+  gnu-sed
+  grep
   hub
   httpie
   imagemagick
