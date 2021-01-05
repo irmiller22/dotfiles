@@ -73,9 +73,6 @@ unset READLINK CURRENT_SCRIPT SCRIPT_PATH DOTFILE EXTRAFILE
 export DOTFILES_DIR DOTFILES_EXTRA_DIR
 source ~/.profile
 
-# infra/kubernetes
-export PATH="$HOME/.poetry/bin:$PATH"
-
 function iterm2_print_user_vars() {
   iterm2_set_user_var kubecontext $(kubectl config current-context)
 }
