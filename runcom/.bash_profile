@@ -30,8 +30,8 @@ if is-macos; then
   done
 fi
 
-if [ ! -f "~/.slate" ]; then
-  cp "$DOTFILES_DIR"/system/.slate ~/.slate
+if [ ! -f "$HOME/.slate" ]; then
+  cp "$DOTFILES_DIR"/system/.slate "$HOME"/.slate
 fi
 
 # Set LSCOLORS
@@ -57,6 +57,11 @@ if type brew &>/dev/null; then
   __git_complete gbd _git_branch -D
 fi
 
+# Git Completion
+if [ -f "$HOME"/.git-completion.bash ]; then
+  . "$HOME"/.git-completion.bash
+fi
+
 # Hook for extra/custom stuff
 DOTFILES_EXTRA_DIR="$HOME/.extra"
 
@@ -72,9 +77,6 @@ unset READLINK CURRENT_SCRIPT SCRIPT_PATH DOTFILE EXTRAFILE
 # Export
 export DOTFILES_DIR DOTFILES_EXTRA_DIR
 source ~/.profile
-
-# infra/kubernetes
-export PATH="$HOME/.poetry/bin:$PATH"
 
 function iterm2_print_user_vars() {
   iterm2_set_user_var kubecontext $(kubectl config current-context)

@@ -25,6 +25,7 @@ ln -sfv "$DOTFILES_DIR/git/.gitignore_global" ~
 if [ "$(uname)" == "Darwin" ]; then
   . "$DOTFILES_DIR/install/brew-cask.sh"
   . "$DOTFILES_DIR/install/gem.sh"
+  . "$DOTFILES_DIR/install/git.sh"
 fi
 
 # Install cache file
