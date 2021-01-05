@@ -1,6 +1,6 @@
 # Install Caskroom
-brew tap caskroom/cask
-brew tap caskroom/versions
+brew tap homebrew/cask
+brew tap homebrew/cask-versions
 
 # Install packages
 apps=(
@@ -8,9 +8,6 @@ apps=(
   alfred
   dash
   docker
-  dropbox
-  firefox
-  google-drive
   iterm2
   keybase
   kindle
@@ -18,14 +15,12 @@ apps=(
   sqlpro-for-mysql
   sqlpro-for-postgres
   slate
-  slack
-  sublime-text3
   tunnelblick
   vagrant
   virtualbox
 )
 
-brew cask install "${apps[@]}"
+brew install --cask "${apps[@]}"
 
 # Quick Look Plugins (https://github.com/sindresorhus/quick-look-plugins)
-brew cask install qlcolorcode qlstephen qlmarkdown quicklook-json qlprettypatch quicklook-csv betterzipql qlimagesize webpquicklook suspicious-package
+brew install --cask qlcolorcode qlstephen qlmarkdown quicklook-json qlprettypatch quicklook-csv qlimagesize webpquicklook suspicious-package
