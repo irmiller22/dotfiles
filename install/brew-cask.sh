@@ -8,10 +8,12 @@ apps=(
   alfred
   dash
   docker
+  google-cloud-sdk
   iterm2
   keybase
   kindle
   postgres
+  postman
   sqlpro-for-mysql
   sqlpro-for-postgres
   slate

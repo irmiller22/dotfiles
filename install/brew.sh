@@ -5,6 +5,9 @@ brew upgrade
 
 # Install packages
 apps=(
+  aws-iam-authenticator
+  awscli
+  azure-cli
   bash-completion2
   bats
   coreutils
@@ -12,6 +15,7 @@ apps=(
   dockutil
   ffmpeg
   fasd
+  fzf
   gifsicle
   git
   gnu-sed
@@ -20,8 +24,14 @@ apps=(
   httpie
   imagemagick
   jq
+  kubectx
+  kubernetes-cli
+  kubeseal
+  kubetail
+  kubeval
   node
   peco
+  plantuml
   poetry
   psgrep
   python
