@@ -76,11 +76,13 @@ unset READLINK CURRENT_SCRIPT SCRIPT_PATH DOTFILE EXTRAFILE
 
 # Export
 export DOTFILES_DIR DOTFILES_EXTRA_DIR
-source ~/.profile
 
+# iterm2 integration
 function iterm2_print_user_vars() {
   iterm2_set_user_var kubecontext $(kubectl config current-context)
 }
 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+test -e "${HOME}/.kubectl_aliases" && source "${HOME}/.kubectl_aliases"
+test -e "${HOME}/.profile" && source "${HOME}/.profile"
 
