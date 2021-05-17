@@ -17,6 +17,5 @@ if command -v kubectl 1>/dev/null 2>&1; then
   eval "source <(kubectl completion bash)"
 fi
 
-if [ ! -e "$HOME/.seismic" ] ; then
-  touch "$HOME/.seismic"
-fi
+# Load work configurations
+test -e "${HOME}/.seismic" && source "${HOME}/.seismic"

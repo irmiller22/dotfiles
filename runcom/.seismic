@@ -1,0 +1,24 @@
+# Seismic Infra - k8s tooling
+PATH="$HOME/Development/seismic/infra/devolate/perc:$PATH"
+PATH="$HOME/.poetry/bin:$PATH"
+export PATH
+
+KUBECONFIG="$HOME/.kube/config:$HOME/.kube/devolate"
+KUBECONFIG="$KUBECONFIG:$HOME/Development/percolate/infra/terraform/kops-testolate/kube-config-admin.yaml"
+KUBECONFIG="$KUBECONFIG:$HOME/Development/percolate/infra/terraform/kops-prclt-uw1/kube-config-admin.yaml"
+export KUBECONFIG
+
+# Seismic Infra - API keys
+export FASTLY_API_KEY=""
+export GITHUB_TOKEN=""
+
+export TF_VAR_aws_access_key_id_percolate=""
+export TF_VAR_aws_secret_access_key_percolate=""
+export TF_VAR_aws_access_key_id_seismicroute53=""
+export TF_VAR_aws_secret_access_key_seismicroute53=""
+export TF_VAR_azure_service_principal_client_id_seismic_dev=""
+export TF_VAR_azure_service_principal_client_secret_seismic_dev=""
+
+if command -v ansible-vault 1>/dev/null 2>&1; then
+  alias av='ansible-vault --vault-id dev@~/.ansible_vault_password_dev --vault-id prod@~/.ansible_vault_password_prod'
+fi
