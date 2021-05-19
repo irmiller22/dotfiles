@@ -15,6 +15,7 @@ fi
 
 if command -v kubectl 1>/dev/null 2>&1; then
   eval "source <(kubectl completion bash)"
+  alias kgnsi='k config set-context --current --namespace=$(kg ns -o json | jq -r ".items[].metadata.name"| fzf)'
 fi
 
 # Load work configurations
