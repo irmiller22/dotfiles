@@ -51,7 +51,6 @@ if type brew &>/dev/null; then
     # Git completion aliases
   __git_complete g __git_main
   __git_complete gco _git_checkout
-  __git_complete gm __git_merge
   __git_complete gp _git_pull
   __git_complete gb _git_branch
   __git_complete gbd _git_branch -D
@@ -76,11 +75,14 @@ unset READLINK CURRENT_SCRIPT SCRIPT_PATH DOTFILE EXTRAFILE
 
 # Export
 export DOTFILES_DIR DOTFILES_EXTRA_DIR
-source ~/.profile
 
+# iterm2 integration
 function iterm2_print_user_vars() {
   iterm2_set_user_var kubecontext $(kubectl config current-context)
 }
 
+test -e "${HOME}/.git-completion.bash" && source "${HOME}/.git-completion.bash"
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+test -e "${HOME}/.kubectl_aliases" && source "${HOME}/.kubectl_aliases"
+test -e "${HOME}/.profile" && source "${HOME}/.profile"
 
