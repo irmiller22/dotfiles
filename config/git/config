@@ -2,13 +2,13 @@
   user = irmiller22
 
 [user]
-  name = Ian Miller
-  email = irmiller22@gmail.com
+	name = Ian Miller
+	email = irmiller22@gmail.com
 
 [core]
   whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
   excludesfile = ~/.gitignore_global
-  editor = vim
+	editor = vim
   filemode = false
   trustctime = false
   autocrlf = input

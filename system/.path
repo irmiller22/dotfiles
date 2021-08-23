@@ -14,7 +14,9 @@ prepend-path "/sbin"
 prepend-path "/usr/sbin"
 prepend-path "/usr/local/sbin"
 prepend-path "/usr/local/bin"
-prepend-path "/usr/local/opt/python/libexec/bin"
+prepend-path "$HOME/.local/bin"
+# prepend-path "/usr/local/opt/python/libexec/bin"
+prepend-path "$HOME/.pyenv/shims"
 
 # Remove duplicates (preserving prepended items)
 # Source: http://unix.stackexchange.com/a/40755

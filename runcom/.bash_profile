@@ -1,8 +1,10 @@
 # If not running interactively, don't do anything
+
 [ -z "$PS1" ] && return
 
 # Resolve DOTFILES_DIR (assuming ~/.dotfiles on distros without readlink and/or $BASH_SOURCE/$0)
-READLINK=$(which greadlink || which readlink)
+
+READLINK=$(which greadlink 2>/dev/null || which readlink)
 CURRENT_SCRIPT=$BASH_SOURCE
 
 if [[ -n $CURRENT_SCRIPT && -x "$READLINK" ]]; then
@@ -15,17 +17,18 @@ else
   return
 fi
 
-# Read cache
-DOTFILES_CACHE="$DOTFILES_DIR/.cache.sh"
-[ -f "$DOTFILES_CACHE" ] && . "$DOTFILES_CACHE"
+# Make utilities available
 
-# Finally we can source the dotfiles (order matters)
-for DOTFILE in "$DOTFILES_DIR"/system/.{function,function_*,path,env,alias,grep,prompt,nvm,rvm}; do
+PATH="$DOTFILES_DIR/bin:$PATH"
+
+# Source the dotfiles (order matters)
+
+for DOTFILE in "$DOTFILES_DIR"/system/.{function,function_*,path,env,alias,grep,prompt,completion,fix,custom}; do
   [ -f "$DOTFILE" ] && . "$DOTFILE"
 done
 
 if is-macos; then
-  for DOTFILE in "$DOTFILES_DIR"/system/.{env,alias,function}.macos; do
+  for DOTFILE in "$DOTFILES_DIR"/system/.{env,alias,function,path}.macos; do
     [ -f "$DOTFILE" ] && . "$DOTFILE"
   done
 fi
@@ -71,9 +74,11 @@ if [ -d "$DOTFILES_EXTRA_DIR" ]; then
 fi
 
 # Clean up
+
 unset READLINK CURRENT_SCRIPT SCRIPT_PATH DOTFILE EXTRAFILE
 
 # Export
+
 export DOTFILES_DIR DOTFILES_EXTRA_DIR
 
 # iterm2 integration
@@ -86,3 +91,7 @@ test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shel
 test -e "${HOME}/.kubectl_aliases" && source "${HOME}/.kubectl_aliases"
 test -e "${HOME}/.profile" && source "${HOME}/.profile"
 
+alias ic="ibmcloud"
+export XDG_CONFIG_HOME=/Users/ianmiller/.config
+
+test -e "${HOME}/.profile" && source "${HOME}/.profile"

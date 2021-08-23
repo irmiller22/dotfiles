@@ -1,4 +1,4 @@
-COMPUTER_NAME="irmiller"
+COMPUTER_NAME="irmiller22"
 
 # Ask for the administrator password upfront
 sudo -v
