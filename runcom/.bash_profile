@@ -21,6 +21,7 @@ DOTFILES_CACHE="$DOTFILES_DIR/.cache.sh"
 
 # Finally we can source the dotfiles (order matters)
 for DOTFILE in "$DOTFILES_DIR"/system/.{function,function_*,path,env,alias,grep,prompt,nvm,rvm}; do
+  echo "LOADING WORKS FOR $DOTFILE"
   [ -f "$DOTFILE" ] && . "$DOTFILE"
 done
 
