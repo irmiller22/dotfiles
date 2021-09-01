@@ -1,5 +1,6 @@
 tap "homebrew/bundle"
 tap "homebrew/core"
+tap "instrumenta/instrumenta"
 
 brew "aws-iam-authenticator"
 brew "awscli"
