@@ -20,6 +20,7 @@ core-linux:
 	apt-get update
 	apt-get upgrade -y
 	apt-get dist-upgrade -f
+	echo "test"
 
 stow-macos: brew
 	is-executable stow || brew install stow
