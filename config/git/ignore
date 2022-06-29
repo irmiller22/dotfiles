@@ -3,6 +3,7 @@
 
 # Dotfiles
 .cache.sh
+.seismic
 
 # Virtualenv
 .Python
@@ -19,9 +20,6 @@ server.crt
 
 # ESLint
 .eslintcache
-
-# NPM
-npm-debug.log
 
 # Hubot
 .hubot_history

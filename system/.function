@@ -89,3 +89,9 @@ meteo() {
 md() {
   pandoc $1 | lynx -stdin -dump
 }
+
+# Open Directories
+
+open-dirs() {
+  for DIR in $(ls -d $1); do open -a iTerm $DIR; done;
+}

@@ -35,8 +35,8 @@ Or, using wget:
        help             This help message
        edit             Open dotfiles in editor ($EDITOR_ALT) and Git GUI ($GIT_GUI)
        reload           Reload dotfiles
-       update           Update packages and pkg managers (OS, brew, npm, gem, pip)
-       clean            Clean up caches (brew, npm, gem, rvm)
+       update           Update packages and pkg managers (OS, brew, gem, pip)
+       clean            Clean up caches (brew, gem, rvm)
        osx              Apply OS X system defaults
        dock             Apply OS X Dock settings
 
