@@ -3,6 +3,7 @@
 
 # Dotfiles
 .cache.sh
+.seismic
 
 # Virtualenv
 .Python
