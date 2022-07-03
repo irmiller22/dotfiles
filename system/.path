@@ -3,6 +3,7 @@
 is-executable getconf && PATH=$(`command -v getconf` PATH)
 
 # Prepend new items to path (if directory exists)
+prepend-path "/opt/homebrew/bin"
 prepend-path "/bin"
 prepend-path "/usr/bin"
 prepend-path "$DOTFILES_BREW_PREFIX_COREUTILS/libexec/gnubin"
@@ -15,7 +16,6 @@ prepend-path "/usr/sbin"
 prepend-path "/usr/local/sbin"
 prepend-path "/usr/local/bin"
 prepend-path "$HOME/.local/bin"
-# prepend-path "/usr/local/opt/python/libexec/bin"
 prepend-path "$HOME/.pyenv/shims"
 
 # Remove duplicates (preserving prepended items)

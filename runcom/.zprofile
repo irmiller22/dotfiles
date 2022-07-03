@@ -1,6 +1,7 @@
 # If not running interactively, don't do anything
-
 [ -z "$PS1" ] && return
+
+autoload -Uz compinit && compinit
 
 # Resolve DOTFILES_DIR (assuming ~/.dotfiles on distros without readlink and/or $BASH_SOURCE/$0)
 
@@ -37,9 +38,6 @@ if [ ! -f "$HOME/.slate" ]; then
   cp "$DOTFILES_DIR"/system/.slate "$HOME"/.slate
 fi
 
-# Set LSCOLORS
-eval "$(gdircolors "$DOTFILES_DIR"/system/.dir_colors)"
-
 # Bash Completion
 if type brew &>/dev/null; then
   HOMEBREW_PREFIX="$(brew --prefix)"
@@ -52,16 +50,16 @@ if type brew &>/dev/null; then
   fi
 
     # Git completion aliases
-  __git_complete g __git_main
-  __git_complete gco _git_checkout
-  __git_complete gp _git_pull
-  __git_complete gb _git_branch
-  __git_complete gbd _git_branch -D
+  # __git_complete g __git_main
+  # __git_complete gco _git_checkout
+  # __git_complete gp _git_pull
+  # __git_complete gb _git_branch
+  # __git_complete gbd _git_branch -D
 fi
 
 # Git Completion
-if [ -f "$HOME"/.git-completion.bash ]; then
-  . "$HOME"/.git-completion.bash
+if [ -f "$HOME"/.git-completion.zsh ]; then
+  . "$HOME"/.git-completion.zsh
 fi
 
 # Hook for extra/custom stuff
@@ -74,24 +72,21 @@ if [ -d "$DOTFILES_EXTRA_DIR" ]; then
 fi
 
 # Clean up
-
 unset READLINK CURRENT_SCRIPT SCRIPT_PATH DOTFILE EXTRAFILE
 
 # Export
-
 export DOTFILES_DIR DOTFILES_EXTRA_DIR
 
+# XDG Config
+export XDG_CONFIG_HOME=/Users/imiller/.config
+
 # iterm2 integration
-function iterm2_print_user_vars() {
-  iterm2_set_user_var kubecontext $(kubectl config current-context)
-}
+if command -v brew 1>/dev/null 2>&1; then
+  function iterm2_print_user_vars() {
+    iterm2_set_user_var kubecontext $(kubectl config current-context)
+  }
+fi
 
-test -e "${HOME}/.git-completion.bash" && source "${HOME}/.git-completion.bash"
-test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+test -e "${HOME}/.git-completion.zsh" && source "${HOME}/.git-completion.zsh"
 test -e "${HOME}/.kubectl_aliases" && source "${HOME}/.kubectl_aliases"
-test -e "${HOME}/.profile" && source "${HOME}/.profile"
-
-alias ic="ibmcloud"
-export XDG_CONFIG_HOME=/Users/ianmiller/.config
-
 test -e "${HOME}/.profile" && source "${HOME}/.profile"
