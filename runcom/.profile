@@ -2,16 +2,19 @@
 [[ -s "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc" ]] && source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc"
 [[ -s "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc" ]] && source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc"
 
+# pyenv
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
 
+# Direnv
 if command -v direnv 1>/dev/null 2>&1; then
-  eval "$(direnv hook bash)"
+  eval "$(direnv hook zsh)"
 fi
 
+# K8S
 if command -v kubectl 1>/dev/null 2>&1; then
-  eval "source <(kubectl completion bash)"
+  eval "source <(kubectl completion zsh)"
   alias kgnsi='k config set-context --current --namespace=$(kg ns -o json | jq -r ".items[].metadata.name"| fzf)'
   test -e "${HOME}/.kubectl_aliases" && source "${HOME}/.kubectl_aliases"
 fi

@@ -1,7 +1,7 @@
 # Aliases
 
 # reload
-alias reload="source ~/.bash_profile"
+alias reload="source ~/.zprofile"
 
 # code
 alias dev='cd ~/Development/'
@@ -15,9 +15,6 @@ alias desktop='cd ~/Desktop/'
 # personal
 alias pers='cd ~/Development/personal/'
 alias tama='cd ~/Development/personal/tamagotchi'
-
-# pillar
-alias pillar='cd ~/Development/pillar/'
 
 # Git
 alias g="git"
