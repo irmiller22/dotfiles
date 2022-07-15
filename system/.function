@@ -69,5 +69,5 @@ colors() {
 # Open Directories
 
 open-dirs() {
-  for DIR in $(ls -d $1); do open -a iTerm $DIR; done;
+  for DIR in $(ls -d "$1"); do open -a iTerm "$DIR"; done;
 }
