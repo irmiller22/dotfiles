@@ -10,6 +10,7 @@ brew 'postgresql@14'
 brew 'ruby-build'
 brew 'spaceman-diff'
 brew 'tfenv'
+brew 'uv'
 brew 'wget'
 brew 'yt-dlp'
 
