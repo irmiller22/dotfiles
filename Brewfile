@@ -1,6 +1,5 @@
 cask_args appdir: '/Applications'
 
-tap 'homebrew/bundle'
 tap 'hashicorp/tap'
 
 brew 'cloudflared'
@@ -26,4 +25,3 @@ cask 'warp'
 cask 'whatsapp'
 cask 'vlc'
 cask 'zed'
-cask 'zoom'
