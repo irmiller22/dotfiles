@@ -1,0 +1,5 @@
+[user]
+        name = Ian Miller
+        email = irmiller22@gmail.com
+[credential]
+        helper = osxkeychain

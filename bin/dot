@@ -1,63 +1,66 @@
-#!/usr/bin/env bash
+#!/bin/sh
+#
+# dot
+#
+# `dot` handles installation, updates, things like that. Run it periodically
+# to make sure you're on the latest and greatest.
 
-BIN_NAME=$(basename "$0")
-COMMAND_NAME=$1
-SUB_COMMAND_NAME=$2
+set -e
 
-sub_help () {
-  echo "Usage: $BIN_NAME <command>"
-  echo
-  echo "Commands:"
-  echo "   clean            Clean up caches (brew, gem)"
-  echo "   dock             Apply macOS Dock settings"
-  echo "   edit             Open dotfiles in IDE ($DOTFILES_IDE) and Git GUI ($DOTFILES_GIT_GUI)"
-  echo "   help             This help message"
-  echo "   macos            Apply macOS system defaults"
-  echo "   test             Run tests"
-  echo "   update           Update packages and pkg managers (OS, brew, gem)"
+parentDirectory="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P)"
+dotfilesDirectory="$(cd "$( dirname "$parentDirectory" )" && pwd -P)"
+
+displayUsageAndExit() {
+	echo "dot -- dotfiles management"
+	echo ""
+	echo "Usage: dot [options]"
+	echo ""
+	echo "Options:"
+	echo "  -e, --edit    Open dotfiles directory for editing"
+	echo "  -h, --help    Show this help message and exit"
+	exit
 }
 
-sub_edit () {
-  sh -c "$DOTFILES_IDE $DOTFILES_DIR"
-  sh -c "$DOTFILES_GIT_GUI $DOTFILES_DIR"
-}
+while test $# -gt 0; do
+	case "$1" in
+		"-h"|"--help")
+			displayUsageAndExit
+			;;
+		"-e"|"--edit")
+			exec "$EDITOR" "$dotfilesDirectory"
+			exit
+			;;
+		*)
+			echo "Invalid option: $1"
+			displayUsageAndExit
+			;;
+	esac
+	shift
+done
 
-sub_update () {
-  sudo softwareupdate -i -a
-  brew update
-  brew upgrade
-  brew cleanup
-  gem update --system
-  gem update
-}
+export DOTFILES=$HOME/.dotfiles
+export ZSH=$HOME/.oh-my-zsh
 
-sub_clean () {
-  brew cleanup
-  gem cleanup
-}
+# Update dotfiles themselves
+echo "› git pull"
+git -C $DOTFILES pull
 
-sub_macos () {
-  for DEFAULTS_FILE in "${DOTFILES_DIR}"/macos/defaults*.sh; do
-    echo "Applying ${DEFAULTS_FILE}" && . "${DEFAULTS_FILE}"
-  done
-  echo "Done. Some changes may require a logout/restart to take effect."
-}
+# Set macOS defaults
+$DOTFILES/macos/set-defaults.sh
 
-sub_dock () {
-  . "${DOTFILES_DIR}/macos/dock.sh" && echo "Dock reloaded."
-}
+# Set macOS hostname
+$DOTFILES/macos/set-hostname.sh
 
-case $COMMAND_NAME in
-  "" | "-h" | "--help")
-    sub_help
-    ;;
-  *)
-    shift
-    sub_${COMMAND_NAME} $@
-    if [ $? = 127 ]; then
-      echo "'$COMMAND_NAME' is not a known command or has errors." >&2
-      sub_help
-      exit 1
-    fi
-    ;;
-esac
+# Install homebrew
+$DOTFILES/homebrew/install.sh 2>&1
+
+# Upgrade homebrew
+echo "› brew update"
+brew update
+
+echo "› brew upgrade"
+brew upgrade
+
+# Install software
+echo "› script/install"
+$DOTFILES/script/install

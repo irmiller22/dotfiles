@@ -4,59 +4,58 @@
 
 ## Install
 
-On a sparkling fresh installation of OS X:
+On a fresh installation of OS X:
 
-    sudo softwareupdate -i -a
-    xcode-select --install
+```sh
+sudo softwareupdate -i -a
+xcode-select --install
+```
 
-Install the dotfiles with either Git or curl:
+Install the dotfiles with Git:
 
-### Clone with Git
+```sh
+git clone https://github.com/holman/dotfiles.git ~/.dotfiles
+cd ~/.dotfiles
+```
 
-    git clone https://github.com/irmiller22/dotfiles.git
-    source dotfiles/install.sh
+Once installed, then you can bootstrap the dotfiles:
 
-### Remotely install using curl
+```sh
+script/bootstrap
+```
 
-Alternatively, you can install this into `~/.dotfiles` remotely without Git using curl:
+This will symlink the appropriate files in `.dotfiles` to your home directory.
+Everything is configured and tweaked within `~/.dotfiles`.
 
-    sh -c "`curl -fsSL https://raw.github.com/irmiller22/dotfiles/master/remote-install.sh`"
+The main file you'll want to change right off the bat is `zsh/zshrc.symlink`,
+which sets up a few paths that'll be different on your particular machine.
 
-Or, using wget:
+`dot` is a simple script that installs some dependencies, sets sane macOS
+defaults, and so on. Tweak this script, and occasionally run `dot` from
+time to time to keep your environment fresh and up-to-date. You can find
+this script in `bin/`.
 
-    sh -c "`wget -O - --no-check-certificate https://raw.githubusercontent.com/irmiller22/dotfiles/master/remote-install.sh`"
+## Components
 
-## The `dotfiles` command
+This takes the majority of its inspiration from how @holman sets up his [dotfiles](https://github.com/holman/dotfiles):
 
-    $ dotfiles help
-    Usage: dotfiles <command>
+- **bin/**: Anything in `bin/` will get added to your `$PATH` and be made
+  available everywhere.
+- **topic/\*.zsh**: Any files ending in `.zsh` get loaded into your
+  environment.
+- **topic/path.zsh**: Any file named `path.zsh` is loaded first and is
+  expected to setup `$PATH` or similar.
+- **topic/completion.zsh**: Any file named `completion.zsh` is loaded
+  last and is expected to setup autocomplete.
+- **topic/install.sh**: Any file named `install.sh` is executed when you run `script/install`. To avoid being loaded automatically, its extension is `.sh`, not `.zsh`.
+- **topic/\*.symlink**: Any file ending in `*.symlink` gets symlinked into
+  your `$HOME`. This is so you can keep all of those versioned in your dotfiles
+  but still keep those autoloaded files in your home directory. These get
+  symlinked in when you run `script/bootstrap`.
 
-    Commands:
-       help             This help message
-       edit             Open dotfiles in editor ($EDITOR_ALT) and Git GUI ($GIT_GUI)
-       reload           Reload dotfiles
-       update           Update packages and pkg managers (OS, brew, gem, pip)
-       clean            Clean up caches (brew, gem, rvm)
-       osx              Apply OS X system defaults
-       dock             Apply OS X Dock settings
+## Special Thanks
 
-## Customize/extend
-
-You can put your custom settings, such as Git credentials in the `system/.custom` file which will be sourced from `.bash_profile` automatically. This file is in `.gitignore`.
-
-Alternatively, you can have an additional, personal dotfiles repo at `~/.extra`.
-
-* The runcom `.bash_profile` sources all `~/.extra/runcom/*.sh` files.
-* The installer (`install.sh`) will run `~/.extra/install.sh`.
-
-## Additional resources
-
-* [Awesome Dotfiles](https://github.com/webpro/awesome-dotfiles)
-* [Homebrew](http://brew.sh/) / [FAQ](https://github.com/Homebrew/homebrew/wiki/FAQ)
-* [homebrew-cask](http://caskroom.io/) / [usage](https://github.com/phinze/homebrew-cask/blob/master/USAGE.md)
-* [Bash prompt](http://wiki.archlinux.org/index.php/Color_Bash_Prompt)
-* [Solarized Color Theme for GNU ls](https://github.com/seebi/dircolors-solarized)
-
-## Credits
-
-Many thanks to the [dotfiles community](http://dotfiles.github.io/) and the creators of the incredibly useful tools. Huge props to @webpro for this.
+I forked [Zach Holman](http://github.com/holman)'s excellent
+[dotfiles](http://github.com/holman/dotfiles) and provides the foundation for my
+dotfiles. I've customized his implementation to suit my own needs, but many
+thanks to @holman for providing a simple and maintainable approach to dotfiles.
