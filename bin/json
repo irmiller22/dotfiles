@@ -5,6 +5,7 @@ OPT_COLOR=""
 while getopts ":c" OPT; do
 	case "$OPT" in
 		c) OPT_COLOR="--color";;
+		*) ;;
 	esac
 done
 

@@ -3,7 +3,7 @@
 SOURCE="https://github.com/irmiller22/dotfiles"
 TARBALL="$SOURCE/tarball/master"
 TARGET="$HOME/.dotfiles"
-TAR_CMD="tar -xzv -C "$TARGET" --strip-components=1 --exclude='{.gitignore}'"
+TAR_CMD="tar -xzv -C \"$TARGET\" --strip-components=1 --exclude='{.gitignore}'"
 
 is_executable() {
   type "$1" > /dev/null 2>&1

@@ -1,3 +1,5 @@
+# shellcheck shell=bash
+
 COMPUTER_NAME="imiller"
 
 # Ask for the administrator password upfront
