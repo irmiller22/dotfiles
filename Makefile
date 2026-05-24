@@ -1,10 +1,18 @@
-SHELL = /bin/bash
+SHELL = /bin/sh
 DOTFILES_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 OS := $(shell bin/is-supported bin/is-macos macos linux)
 PATH := $(DOTFILES_DIR)/bin:$(PATH)
 export XDG_CONFIG_HOME = $(HOME)/.config
 export STOW_DIR = $(DOTFILES_DIR)
 export ACCEPT_EULA=Y
+
+# Enforce canonical install location. CI checks out to a non-canonical path,
+# so the guard is bypassed there.
+ifndef GITHUB_ACTION
+ifneq ($(DOTFILES_DIR),$(HOME)/.dotfiles)
+$(error Dotfiles must be installed at $$HOME/.dotfiles, found $(DOTFILES_DIR). See README.)
+endif
+endif
 
 .PHONY: test
 
@@ -14,7 +22,7 @@ macos: sudo core-macos packages link
 
 linux: core-linux link
 
-core-macos: brew bash git ruby
+core-macos: brew git ruby
 
 core-linux:
 	apt-get update
@@ -44,23 +52,6 @@ unlink: stow-$(OS)
 
 brew:
 	is-executable brew || curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh | bash
-
-bash: BASH=/usr/local/bin/bash
-bash: SHELLS=/private/etc/shells
-bash: brew
-ifdef GITHUB_ACTION
-	if ! grep -q $(BASH) $(SHELLS); then \
-		brew install bash bash-completion@2 pcre && \
-		sudo append $(BASH) $(SHELLS) && \
-		sudo chsh -s $(BASH); \
-	fi
-else
-	if ! grep -q $(BASH) $(SHELLS); then \
-		brew install bash bash-completion@2 pcre && \
-		sudo append $(BASH) $(SHELLS) && \
-		chsh -s $(BASH); \
-	fi
-endif
 
 git: brew
 	brew install git git-extras

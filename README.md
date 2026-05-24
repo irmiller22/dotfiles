@@ -9,22 +9,28 @@ On a sparkling fresh installation of OS X:
     sudo softwareupdate -i -a
     xcode-select --install
 
-Install the dotfiles with either Git or curl:
+Install the dotfiles with either Git or curl. The repo **must** live at
+`~/.dotfiles` — the Makefile enforces this and the install scripts
+assume it.
 
 ### Clone with Git
 
-    git clone https://github.com/irmiller22/dotfiles.git
-    source dotfiles/install.sh
+    git clone https://github.com/irmiller22/dotfiles.git ~/.dotfiles
+    cd ~/.dotfiles
+    make all
 
 ### Remotely install using curl
 
-Alternatively, you can install this into `~/.dotfiles` remotely without Git using curl:
+Alternatively, you can install this into `~/.dotfiles` remotely without
+Git using curl, then run `make` from the resulting directory:
 
-    sh -c "`curl -fsSL https://raw.github.com/irmiller22/dotfiles/master/remote-install.sh`"
+    sh -c "`curl -fsSL https://raw.githubusercontent.com/irmiller22/dotfiles/master/remote-install.sh`"
+    cd ~/.dotfiles && make all
 
 Or, using wget:
 
     sh -c "`wget -O - --no-check-certificate https://raw.githubusercontent.com/irmiller22/dotfiles/master/remote-install.sh`"
+    cd ~/.dotfiles && make all
 
 ## The `dotfiles` command
 
