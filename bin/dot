@@ -2,7 +2,6 @@
 
 BIN_NAME=$(basename "$0")
 COMMAND_NAME=$1
-SUB_COMMAND_NAME=$2
 
 sub_help () {
   echo "Usage: $BIN_NAME <command>"
@@ -38,13 +37,37 @@ sub_clean () {
 
 sub_macos () {
   for DEFAULTS_FILE in "${DOTFILES_DIR}"/macos/defaults*.sh; do
+    # shellcheck source=/dev/null
     echo "Applying ${DEFAULTS_FILE}" && . "${DEFAULTS_FILE}"
   done
   echo "Done. Some changes may require a logout/restart to take effect."
 }
 
 sub_dock () {
+  # shellcheck source=/dev/null
   . "${DOTFILES_DIR}/macos/dock.sh" && echo "Dock reloaded."
+}
+
+sub_test () {
+  if [ -z "$DOTFILES_DIR" ]; then
+    DOTFILES_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+  fi
+  cd "$DOTFILES_DIR" || return 1
+
+  if ! command -v shellcheck >/dev/null 2>&1; then
+    echo "shellcheck not installed — run 'brew install shellcheck'" >&2
+    return 1
+  fi
+  if ! command -v bats >/dev/null 2>&1; then
+    echo "bats not installed — run 'brew install bats-core'" >&2
+    return 1
+  fi
+
+  echo "==> shellcheck"
+  shellcheck bin/* macos/*.sh osxdefaults.sh remote-install.sh || return 1
+  echo
+  echo "==> bats"
+  bats tests/ || return 1
 }
 
 case $COMMAND_NAME in
@@ -53,7 +76,7 @@ case $COMMAND_NAME in
     ;;
   *)
     shift
-    sub_${COMMAND_NAME} $@
+    sub_"${COMMAND_NAME}" "$@"
     if [ $? = 127 ]; then
       echo "'$COMMAND_NAME' is not a known command or has errors." >&2
       sub_help
