@@ -40,15 +40,6 @@ Or, using wget:
        osx              Apply OS X system defaults
        dock             Apply OS X Dock settings
 
-## Customize/extend
-
-You can put your custom settings, such as Git credentials in the `system/.custom` file which will be sourced from `.bash_profile` automatically. This file is in `.gitignore`.
-
-Alternatively, you can have an additional, personal dotfiles repo at `~/.extra`.
-
-* The runcom `.bash_profile` sources all `~/.extra/runcom/*.sh` files.
-* The installer (`install.sh`) will run `~/.extra/install.sh`.
-
 ## Additional resources
 
 * [Awesome Dotfiles](https://github.com/webpro/awesome-dotfiles)
