@@ -33,3 +33,5 @@ docs/site/i18n/en.json
 # VS Code
 .vscode
 
+
+**/.claude/settings.local.json
