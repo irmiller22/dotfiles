@@ -64,7 +64,9 @@ sub_test () {
   fi
 
   echo "==> shellcheck"
-  shellcheck bin/* macos/*.sh osxdefaults.sh remote-install.sh || return 1
+  # Exclude non-script files (e.g. README.md) from the bin/ glob
+  # shellcheck disable=SC2046  # word-splitting is intentional here
+  shellcheck $(find bin -type f ! -name "*.md") macos/*.sh osxdefaults.sh remote-install.sh || return 1
   echo
   echo "==> bats"
   bats tests/ || return 1
