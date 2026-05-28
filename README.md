@@ -32,19 +32,21 @@ Or, using wget:
     sh -c "`wget -O - --no-check-certificate https://raw.githubusercontent.com/irmiller22/dotfiles/master/remote-install.sh`"
     cd ~/.dotfiles && make all
 
-## The `dotfiles` command
+## The `dot` command
 
-    $ dotfiles help
-    Usage: dotfiles <command>
+    $ dot help
+    Usage: dot <command>
 
     Commands:
+       clean            Clean up caches (brew, gem)
+       dock             Apply macOS Dock settings
+       edit             Open dotfiles in IDE ($DOTFILES_IDE) and Git GUI ($DOTFILES_GIT_GUI)
        help             This help message
-       edit             Open dotfiles in editor ($EDITOR_ALT) and Git GUI ($GIT_GUI)
-       reload           Reload dotfiles
-       update           Update packages and pkg managers (OS, brew, gem, pip)
-       clean            Clean up caches (brew, gem, rvm)
-       osx              Apply OS X system defaults
-       dock             Apply OS X Dock settings
+       macos            Apply macOS system defaults
+       test             Run shellcheck and bats tests
+       update           Update packages and pkg managers (OS, brew, gem)
+
+See [`bin/README.md`](./bin/README.md) for the helper scripts that back the CLI, and [`CLAUDE.md`](./CLAUDE.md) for the repo's conventions and constraints.
 
 ## Additional resources
 
