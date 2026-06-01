@@ -16,3 +16,51 @@ jobs:
 
       - name: Run dot test (shellcheck + bats)
         run: ./bin/dot test
+
+  link-smoke-test:
+    name: make link smoke test
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install stow
+        run: brew install stow
+
+      - name: Run make link
+        run: make link
+
+      - name: Verify XDG symlinks point into the repo
+        env:
+          REPO_DIR: ${{ github.workspace }}
+        run: |
+          set -euo pipefail
+          fail=0
+          assert_link() {
+            local link="$1" want="$2"
+            if [ ! -L "$link" ]; then
+              echo "FAIL: $link is not a symlink" >&2; fail=1; return
+            fi
+            local got want_abs
+            got="$(cd -P "$link" && pwd -P)"
+            want_abs="$(cd -P "$want" && pwd -P)"
+            if [ "$got" != "$want_abs" ]; then
+              echo "FAIL: $link -> $got (expected $want_abs)" >&2; fail=1
+            else
+              echo "OK:   $link -> $got"
+            fi
+          }
+          assert_link "$HOME/.config/git"      "$REPO_DIR/config/git"
+          assert_link "$HOME/.config/prettier" "$REPO_DIR/config/prettier"
+          exit "$fail"
+
+      - name: Re-run make link (idempotency check)
+        run: make link
+
+      - name: Assert no hardcoded /Users/<name> paths in Makefile
+        run: |
+          set -euo pipefail
+          if grep -nE '/Users/[A-Za-z0-9_.-]+' Makefile; then
+            echo "FAIL: hardcoded /Users/<name> path found in Makefile" >&2
+            exit 1
+          fi
+          echo "OK: no hardcoded user paths in Makefile"
