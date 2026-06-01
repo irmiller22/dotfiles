@@ -1,0 +1,3 @@
+# Claude Code local artifacts — machine-local, never committed
+.claude/settings.local.json
+.claude/worktrees/
