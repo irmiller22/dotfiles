@@ -46,9 +46,11 @@ packages: brew-packages cask-apps
 link: stow-$(OS)
 	mkdir -p $(XDG_CONFIG_HOME)
 	stow -t $(XDG_CONFIG_HOME) config
+	stow -t $(HOME) zsh
 
 unlink: stow-$(OS)
 	stow --delete -t $(XDG_CONFIG_HOME) config
+	stow --delete -t $(HOME) zsh
 
 brew:
 	is-executable brew || curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh | bash
