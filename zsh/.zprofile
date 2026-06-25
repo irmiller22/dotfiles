@@ -15,4 +15,4 @@ fi
 test -e "${HOME}/.git-completion.zsh" && source "${HOME}/.git-completion.zsh"
 test -e "${HOME}/.kubectl_aliases" && source "${HOME}/.kubectl_aliases"
 
-source "$DOTFILES_DIR/zsh/.profile.zsh"
+source "$DOTFILES_DIR/zsh/.profile"
