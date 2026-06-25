@@ -49,8 +49,25 @@ jobs:
               echo "OK:   $link -> $got"
             fi
           }
+          assert_file_link() {
+            local link="$1" want="$2"
+            if [ ! -L "$link" ]; then
+              echo "FAIL: $link is not a symlink" >&2; fail=1; return
+            fi
+            local got want_abs
+            got="$(realpath "$link")"
+            want_abs="$(realpath "$want")"
+            if [ "$got" != "$want_abs" ]; then
+              echo "FAIL: $link -> $got (expected $want_abs)" >&2; fail=1
+            else
+              echo "OK:   $link -> $got"
+            fi
+          }
           assert_link "$HOME/.config/git"      "$REPO_DIR/config/git"
           assert_link "$HOME/.config/prettier" "$REPO_DIR/config/prettier"
+          assert_file_link "$HOME/.zshrc"    "$REPO_DIR/zsh/.zshrc"
+          assert_file_link "$HOME/.zprofile" "$REPO_DIR/zsh/.zprofile"
+          assert_file_link "$HOME/.profile"  "$REPO_DIR/zsh/.profile"
           exit "$fail"
 
       - name: Re-run make link (idempotency check)
