@@ -3,6 +3,7 @@ export DOTFILES="$HOME/.dotfiles"
 export XDG_CONFIG_HOME="$HOME/.config"
 
 PATH="$DOTFILES_DIR/bin:$PATH"
+PATH="/opt/homebrew/bin:$PATH"
 export PATH
 
 autoload -Uz compinit && compinit
