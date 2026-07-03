@@ -6,10 +6,10 @@ Orientation for Claude Code sessions working in this repo.
 
 Personal dotfiles for `irmiller22`. Two layers:
 
-1. **System config** (`config/`, `macos/`) — versioned, declarative, applied via `make`
+1. **System config** (`config/`, `zsh/`, `macos/`) — versioned, declarative, applied via `make`
 2. **Tooling manifests** (`install/`, `bin/`) — what should be installed on a fresh machine, plus helper CLIs
 
-Shell init (`~/.zshrc`, `~/.zprofile`) is **NOT** in this repo — it is hand-maintained per machine. The `runcom/` and `system/` directories were deleted on purpose (LAT-32). Do not suggest adding them back.
+Shell init (`~/.zshrc`, `~/.zprofile`, `~/.profile`) lives in `zsh/` and is stowed to `$HOME` via `make link`. The `runcom/` and `system/` directories were deleted on purpose (LAT-32); `zsh/` is their replacement.
 
 ## Canonical install location
 
@@ -22,7 +22,7 @@ If you spawn a sub-agent in a worktree (which lives at a different path), do not
 | Command | What it does |
 | --- | --- |
 | `make all` | Full install: Homebrew, Brewfile, Caskfile, then `make link` |
-| `make link` | Stow `config/` → `$XDG_CONFIG_HOME` (typically `~/.config`) |
+| `make link` | Stow `config/` → `$XDG_CONFIG_HOME` and `zsh/` → `$HOME` |
 | `make unlink` | Reverse of `make link` |
 | `make brew-packages` | Install/update from `install/Brewfile` |
 | `make cask-apps` | Install/update from `install/Caskfile` (and VSCode extensions) |
@@ -33,6 +33,7 @@ The README (and earlier templates) referred to an `install.sh` — that file nev
 
 - **`bin/`** — Helper scripts (`is-executable`, `is-macos`, `is-supported`, `append`, `plistbuddy`) and the `dot` CLI. Anything Makefile recipes need lives here.
 - **`config/`** — Stowed to `$XDG_CONFIG_HOME`. Currently `config/git/` and `config/prettier/`.
+- **`zsh/`** — Stowed to `$HOME`. Contains `.zshrc` (OMZ + agnoster), `.zprofile` (PATH, XDG, completions), and `.profile` (direnv, kubectl, nvm, seismic).
 - **`install/`** — Prescriptive install manifests (see "Install manifests are prescriptive" below).
 - **`macos/`** — `defaults.sh` (~448 lines of `defaults write …` commands) and `dock.sh`. Applied via `dot macos` and `dot dock`.
 - **`tests/`** — `bats` tests for the `bin/` helpers and the `dot` CLI.
@@ -67,6 +68,6 @@ If you add or modify a `bin/` script, shellcheck must pass. If you add user-faci
 
 ## Things that look like bugs but are intentional
 
-- `~/.zshrc` is a regular file (not a symlink). Per-machine shell init is hand-maintained.
-- `config/git` and `config/prettier` are the only items under `config/`. That's the entire stow scope.
+- `~/.zshrc`, `~/.zprofile`, and `~/.profile` are symlinks into `zsh/`, not regular files.
+- `config/git` and `config/prettier` are the only items under `config/`; `zsh/` is the other stow target.
 - Some `install/` manifests list tools that aren't installed on the current machine. They're prescriptive; that's expected.

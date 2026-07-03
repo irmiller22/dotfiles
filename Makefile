@@ -46,9 +46,11 @@ packages: brew-packages cask-apps
 link: stow-$(OS)
 	mkdir -p $(XDG_CONFIG_HOME)
 	stow -t $(XDG_CONFIG_HOME) config
+	stow -t $(HOME) zsh
 
 unlink: stow-$(OS)
 	stow --delete -t $(XDG_CONFIG_HOME) config
+	stow --delete -t $(HOME) zsh
 
 brew:
 	is-executable brew || curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh | bash
@@ -58,6 +60,11 @@ git: brew
 
 ruby: brew
 	brew install ruby
+
+gcloud-auth:
+	is-executable gcloud || (echo "gcloud is not installed"; exit 1)
+	gcloud auth login
+	gcloud auth application-default login
 
 brew-packages: brew
 	brew bundle --file=$(DOTFILES_DIR)/install/Brewfile
