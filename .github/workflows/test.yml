@@ -81,3 +81,34 @@ jobs:
             exit 1
           fi
           echo "OK: no hardcoded user paths in Makefile"
+
+      - name: Zsh syntax check
+        run: |
+          set -euo pipefail
+          zsh -n zsh/.profile   && echo "OK: zsh/.profile"
+          zsh -n zsh/.zprofile  && echo "OK: zsh/.zprofile"
+          zsh -n zsh/.zshrc     && echo "OK: zsh/.zshrc"
+
+  shellcheck-zsh:
+    name: shellcheck zsh files
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install shellcheck
+        run: brew install shellcheck
+
+      - name: shellcheck zsh/.profile
+        run: shellcheck --shell=bash --exclude=SC1091 zsh/.profile
+
+  validate-manifests:
+    name: validate install manifests
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate Brewfile
+        run: brew bundle list --file=install/Brewfile
+
+      - name: Validate Caskfile
+        run: brew bundle list --file=install/Caskfile

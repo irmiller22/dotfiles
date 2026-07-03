@@ -24,7 +24,7 @@ if command -v kubectl 1>/dev/null 2>&1; then
 
   # kdecsec - Decode Kubernetes secrets
   function kdecsec() {
-    kubectl get secret $1 -o jsonpath="{.data}" | jq '.[] |= @base64d'
+    kubectl get secret "$1" -o jsonpath="{.data}" | jq '.[] |= @base64d'
   }
 fi
 
