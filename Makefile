@@ -61,6 +61,11 @@ git: brew
 ruby: brew
 	brew install ruby
 
+gcloud-auth:
+	is-executable gcloud || (echo "gcloud is not installed"; exit 1)
+	gcloud auth login
+	gcloud auth application-default login
+
 brew-packages: brew
 	brew bundle --file=$(DOTFILES_DIR)/install/Brewfile
 

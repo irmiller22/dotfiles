@@ -1,10 +1,11 @@
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-[[ -s "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc" ]] && source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc"
-[[ -s "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc" ]] && source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc"
+[[ -s "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc" ]] && source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+[[ -s "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc" ]] && source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
 
 # Aliases
 alias dev='cd ~/Development'
 alias sinf='cd ~/Development/seismic/infra'
+alias tf='terraform'
 
 # Direnv
 if command -v direnv 1>/dev/null 2>&1; then
@@ -22,11 +23,9 @@ if command -v kubectl 1>/dev/null 2>&1; then
   test -e "${HOME}/.kubectl_aliases" && source "${HOME}/.kubectl_aliases"
 
   # kdecsec - Decode Kubernetes secrets
-  if command -v kdecsec 1>/dev/null 2>&1; then
-    function kdecsec() {
-      kubectl get secret $1 -o jsonpath="{.data}" | jq '.[] |= @base64d'
-    }
-  fi
+  function kdecsec() {
+    kubectl get secret $1 -o jsonpath="{.data}" | jq '.[] |= @base64d'
+  }
 fi
 
 
