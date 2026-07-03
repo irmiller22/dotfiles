@@ -4,7 +4,6 @@
 
 # Aliases
 alias dev='cd ~/Development'
-alias sinf='cd ~/Development/seismic/infra'
 alias tf='terraform'
 
 # Direnv
