@@ -6,8 +6,6 @@ PATH="$DOTFILES_DIR/bin:$PATH"
 PATH="/opt/homebrew/bin:$PATH"
 export PATH
 
-autoload -Uz compinit && compinit
-
 if type brew &>/dev/null; then
   HOMEBREW_PREFIX="$(brew --prefix)"
   FPATH="${HOMEBREW_PREFIX}/share/zsh/site-functions:${FPATH}"
