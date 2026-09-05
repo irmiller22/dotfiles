@@ -21,19 +21,21 @@ If you spawn a sub-agent in a worktree (which lives at a different path), do not
 
 | Command | What it does |
 | --- | --- |
-| `make all` | Full install: Homebrew, Brewfile, Caskfile, then `make link` |
+| `make all` | Full install: Homebrew, Brewfile, Caskfile, oh-my-zsh, then `make link` |
 | `make link` | Stow `config/` → `$XDG_CONFIG_HOME` and `zsh/` → `$HOME` |
 | `make unlink` | Reverse of `make link` |
 | `make brew-packages` | Install/update from `install/Brewfile` |
 | `make cask-apps` | Install/update from `install/Caskfile` (and VSCode extensions) |
+| `make omz` | Install oh-my-zsh and the custom plugins `zsh/.zshrc` references (idempotent) |
 
 The README (and earlier templates) referred to an `install.sh` — that file never existed. The Makefile is the only entry point.
 
 ## Directories
 
-- **`bin/`** — Helper scripts (`is-executable`, `is-macos`, `is-supported`, `append`, `plistbuddy`) and the `dot` CLI. Anything Makefile recipes need lives here.
+- **`bin/`** — Helper scripts (`is-executable`, `is-macos`, `is-supported`, `append`, `plistbuddy`, `install-oh-my-zsh`) and the `dot` CLI. Anything Makefile recipes need lives here.
 - **`config/`** — Stowed to `$XDG_CONFIG_HOME`. Currently `config/git/` and `config/prettier/`.
-- **`zsh/`** — Stowed to `$HOME`. Contains `.zshrc` (OMZ + agnoster), `.zprofile` (PATH, XDG, completions), and `.profile` (direnv, kubectl, nvm, seismic).
+- **`zsh/`** — Stowed to `$HOME`. Contains `.zshrc` (OMZ + agnoster), `.zprofile` (PATH, XDG, completions), and `.profile` (direnv, kubectl, nvm, seismic). oh-my-zsh itself (`~/.oh-my-zsh`) is not stowed — it's installed by `make omz` / `bin/install-oh-my-zsh`, which also fetches the custom plugins `.zshrc` references (`zsh-autosuggestions`, `zsh-completions`).
+- **`oh-my-zsh-custom/`** — Not stowed. Mirrors oh-my-zsh's `$ZSH_CUSTOM` layout (e.g. `themes/agnoster.zsh-theme`). `bin/install-oh-my-zsh` symlinks everything under here into `$ZSH_CUSTOM`, so it takes precedence over oh-my-zsh's built-in files of the same name. Currently holds a patched `agnoster.zsh-theme` whose `prompt_dir()` uses the `shrink-path` plugin instead of the stock `%~`/full-path behavior.
 - **`install/`** — Prescriptive install manifests (see "Install manifests are prescriptive" below).
 - **`macos/`** — `defaults.sh` (~448 lines of `defaults write …` commands) and `dock.sh`. Applied via `dot macos` and `dot dock`.
 - **`tests/`** — `bats` tests for the `bin/` helpers and the `dot` CLI.

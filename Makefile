@@ -18,9 +18,9 @@ endif
 
 all: $(OS)
 
-macos: sudo core-macos packages link
+macos: sudo core-macos packages omz link
 
-linux: core-linux link
+linux: core-linux omz link
 
 core-macos: brew git ruby
 
@@ -42,6 +42,9 @@ ifndef GITHUB_ACTION
 endif
 
 packages: brew-packages cask-apps
+
+omz:
+	bin/install-oh-my-zsh
 
 link: stow-$(OS)
 	mkdir -p $(XDG_CONFIG_HOME)
