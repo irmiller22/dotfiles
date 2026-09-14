@@ -14,7 +14,7 @@ $(error Dotfiles must be installed at $$HOME/.dotfiles, found $(DOTFILES_DIR). S
 endif
 endif
 
-.PHONY: test
+.PHONY: test link unlink
 
 all: $(OS)
 
@@ -50,8 +50,10 @@ link: stow-$(OS)
 	mkdir -p $(XDG_CONFIG_HOME)
 	stow -t $(XDG_CONFIG_HOME) config
 	stow -t $(HOME) zsh
+	bin/link-agent-config link
 
 unlink: stow-$(OS)
+	bin/link-agent-config unlink
 	stow --delete -t $(XDG_CONFIG_HOME) config
 	stow --delete -t $(HOME) zsh
 

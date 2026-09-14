@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+# Links shared agent guidance into Claude Code and Codex configuration directories.
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DOTFILES_DIR="${DOTFILES_DIR:-$(cd "$SCRIPT_DIR/.." && pwd)}"
+
+CLAUDE_LOADER_SOURCE="$DOTFILES_DIR/agents/claude/CLAUDE.md"
+CODEX_LOADER_SOURCE="$DOTFILES_DIR/agents/codex/AGENTS.md"
+GUIDELINES_SOURCE="$DOTFILES_DIR/agents/shared/guidelines"
+
+usage() {
+  echo "Usage: $(basename "$0") <link|unlink>" >&2
+}
+
+check_target() {
+  source_path="$1"
+  target_path="$2"
+
+  if [ -L "$target_path" ]; then
+    if [ "$(readlink "$target_path")" = "$source_path" ]; then
+      return 0
+    fi
+
+    echo "Refusing to replace link owned elsewhere: $target_path" >&2
+    return 1
+  fi
+
+  if [ -e "$target_path" ]; then
+    echo "Refusing to replace unmanaged path: $target_path" >&2
+    return 1
+  fi
+}
+
+create_link() {
+  source_path="$1"
+  target_path="$2"
+
+  if [ ! -L "$target_path" ]; then
+    ln -s "$source_path" "$target_path"
+  fi
+}
+
+remove_owned_link() {
+  source_path="$1"
+  target_path="$2"
+
+  if [ -L "$target_path" ] && [ "$(readlink "$target_path")" = "$source_path" ]; then
+    rm "$target_path"
+  fi
+}
+
+link_agent_config() {
+  conflicts=0
+
+  check_target "$CLAUDE_LOADER_SOURCE" "$HOME/.claude/CLAUDE.md" || conflicts=1
+  check_target "$GUIDELINES_SOURCE" "$HOME/.claude/guidelines" || conflicts=1
+  check_target "$CODEX_LOADER_SOURCE" "$HOME/.codex/AGENTS.md" || conflicts=1
+  check_target "$GUIDELINES_SOURCE" "$HOME/.codex/guidelines" || conflicts=1
+
+  if [ "$conflicts" -ne 0 ]; then
+    echo "Move the conflicting paths aside, then rerun make link." >&2
+    return 1
+  fi
+
+  mkdir -p "$HOME/.claude" "$HOME/.codex"
+  create_link "$CLAUDE_LOADER_SOURCE" "$HOME/.claude/CLAUDE.md"
+  create_link "$GUIDELINES_SOURCE" "$HOME/.claude/guidelines"
+  create_link "$CODEX_LOADER_SOURCE" "$HOME/.codex/AGENTS.md"
+  create_link "$GUIDELINES_SOURCE" "$HOME/.codex/guidelines"
+}
+
+unlink_agent_config() {
+  remove_owned_link "$CLAUDE_LOADER_SOURCE" "$HOME/.claude/CLAUDE.md"
+  remove_owned_link "$GUIDELINES_SOURCE" "$HOME/.claude/guidelines"
+  remove_owned_link "$CODEX_LOADER_SOURCE" "$HOME/.codex/AGENTS.md"
+  remove_owned_link "$GUIDELINES_SOURCE" "$HOME/.codex/guidelines"
+}
+
+case "${1:-}" in
+  link)
+    link_agent_config
+    ;;
+  unlink)
+    unlink_agent_config
+    ;;
+  *)
+    usage
+    exit 2
+    ;;
+esac

@@ -6,7 +6,7 @@ Orientation for Claude Code sessions working in this repo.
 
 Personal dotfiles for `irmiller22`. Two layers:
 
-1. **System config** (`config/`, `zsh/`, `macos/`) — versioned, declarative, applied via `make`
+1. **System config** (`config/`, `zsh/`, `agents/`, `macos/`) — versioned, declarative, applied via `make`
 2. **Tooling manifests** (`install/`, `bin/`) — what should be installed on a fresh machine, plus helper CLIs
 
 Shell init (`~/.zshrc`, `~/.zprofile`, `~/.profile`) lives in `zsh/` and is stowed to `$HOME` via `make link`. The `runcom/` and `system/` directories were deleted on purpose (LAT-32); `zsh/` is their replacement.
@@ -22,7 +22,7 @@ If you spawn a sub-agent in a worktree (which lives at a different path), do not
 | Command | What it does |
 | --- | --- |
 | `make all` | Full install: Homebrew, Brewfile, Caskfile, oh-my-zsh, then `make link` |
-| `make link` | Stow `config/` → `$XDG_CONFIG_HOME` and `zsh/` → `$HOME` |
+| `make link` | Stow `config/` → `$XDG_CONFIG_HOME` and `zsh/` → `$HOME`, then link shared agent instructions into Claude and Codex |
 | `make unlink` | Reverse of `make link` |
 | `make brew-packages` | Install/update from `install/Brewfile` |
 | `make cask-apps` | Install/update from `install/Caskfile` (and VSCode extensions) |
@@ -35,6 +35,7 @@ The README (and earlier templates) referred to an `install.sh` — that file nev
 - **`bin/`** — Helper scripts (`is-executable`, `is-macos`, `is-supported`, `append`, `plistbuddy`, `install-oh-my-zsh`) and the `dot` CLI. Anything Makefile recipes need lives here.
 - **`config/`** — Stowed to `$XDG_CONFIG_HOME`. Currently `config/git/` and `config/prettier/`.
 - **`zsh/`** — Stowed to `$HOME`. Contains `.zshrc` (OMZ + agnoster), `.zprofile` (PATH, XDG, completions), and `.profile` (direnv, kubectl, nvm, seismic). oh-my-zsh itself (`~/.oh-my-zsh`) is not stowed — it's installed by `make omz` / `bin/install-oh-my-zsh`, which also fetches the custom plugins `.zshrc` references (`zsh-autosuggestions`, `zsh-completions`).
+- **`agents/`** — Canonical cross-agent guidance. `shared/guidelines/` contains tool-neutral rules; `claude/CLAUDE.md` and `codex/AGENTS.md` are tool-specific loaders. `bin/link-agent-config` links them into `~/.claude/` and `~/.codex/` without replacing unmanaged files.
 - **`oh-my-zsh-custom/`** — Not stowed. Mirrors oh-my-zsh's `$ZSH_CUSTOM` layout (e.g. `themes/agnoster.zsh-theme`). `bin/install-oh-my-zsh` symlinks everything under here into `$ZSH_CUSTOM`, so it takes precedence over oh-my-zsh's built-in files of the same name. Currently holds a patched `agnoster.zsh-theme` whose `prompt_dir()` uses the `shrink-path` plugin instead of the stock `%~`/full-path behavior.
 - **`install/`** — Prescriptive install manifests (see "Install manifests are prescriptive" below).
 - **`macos/`** — `defaults.sh` (~448 lines of `defaults write …` commands) and `dock.sh`. Applied via `dot macos` and `dot dock`.
@@ -72,5 +73,5 @@ If you add or modify a `bin/` script, shellcheck must pass. If you add user-faci
 ## Things that look like bugs but are intentional
 
 - `~/.zshrc`, `~/.zprofile`, and `~/.profile` are symlinks into `zsh/`, not regular files.
-- `config/git` and `config/prettier` are the only items under `config/`; `zsh/` is the other stow target.
+- `config/git` and `config/prettier` are the only items under `config/`; `zsh/` is the other stow target. Agent instructions use a dedicated conflict-safe linker because Claude and Codex keep runtime state beside their instruction files.
 - Some `install/` manifests list tools that aren't installed on the current machine. They're prescriptive; that's expected.
