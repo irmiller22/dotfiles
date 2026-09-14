@@ -28,7 +28,7 @@
     "editor.formatOnSave": true,
     "editor.formatOnSaveTimeout": 5500,
     "go.useLanguageServer": true,
-    "workbench.colorTheme": "Monokai",
+    "workbench.colorTheme": "Monokai Pro",
     "files.insertFinalNewline": true,
     "terminal.external.osxExec": "iTerm.app",
     "editor.wordWrap": "on",
