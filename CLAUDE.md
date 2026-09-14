@@ -61,7 +61,8 @@ If you add or modify a `bin/` script, shellcheck must pass. If you add user-faci
 
 - **Never** commit directly to `master` and push. Always:
   1. Branch from `master` with a descriptive kebab-case name
-  2. Commit with HEREDOC messages ending with the standard `Co-Authored-By: Claude …` trailer
+  2. Commit with HEREDOC messages. Do **not** add `Co-Authored-By: Claude`, a
+     `Claude-Session:` trailer, or "Generated with Claude Code" to commits or PR bodies.
   3. Push the branch
   4. `gh pr create --base master …`
   5. Merge only when CI is green and the user approves
