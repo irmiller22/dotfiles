@@ -68,6 +68,10 @@ jobs:
           assert_file_link "$HOME/.zshrc"    "$REPO_DIR/zsh/.zshrc"
           assert_file_link "$HOME/.zprofile" "$REPO_DIR/zsh/.zprofile"
           assert_file_link "$HOME/.profile"  "$REPO_DIR/zsh/.profile"
+          assert_file_link "$HOME/.claude/CLAUDE.md" "$REPO_DIR/agents/claude/CLAUDE.md"
+          assert_link "$HOME/.claude/guidelines" "$REPO_DIR/agents/shared/guidelines"
+          assert_file_link "$HOME/.codex/AGENTS.md" "$REPO_DIR/agents/codex/AGENTS.md"
+          assert_link "$HOME/.codex/guidelines" "$REPO_DIR/agents/shared/guidelines"
           exit "$fail"
 
       - name: Re-run make link (idempotency check)
