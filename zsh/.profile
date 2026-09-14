@@ -1,3 +1,12 @@
+# zsh only. Despite the POSIX-looking name, this file is zsh-specific: it loads
+# kubectl/gcloud/direnv completions that use zsh syntax and call `compdef`.
+# Because $HOME has no .bash_profile or .bash_login, a bash login shell would
+# otherwise read this file and fail on that syntax.
+[ -n "$ZSH_VERSION" ] || return 0
+
+# Sourced from .zshrc, i.e. AFTER oh-my-zsh runs compinit — required, because the
+# completions below call `compdef`. Do not source this from .zprofile.
+
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 [[ -s "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc" ]] && source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
 [[ -s "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc" ]] && source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
@@ -31,8 +40,9 @@ fi
 # Seismic - Load work configurations
 test -e "${HOME}/.seismic" && source "${HOME}/.seismic"
 
-# RVM
-export PATH="$PATH:$HOME/.rvm/bin"
+# RVM — only extend PATH if rvm is actually installed, so machines without it
+# don't carry a dead entry.
+[ -d "$HOME/.rvm/bin" ] && export PATH="$PATH:$HOME/.rvm/bin"
 
 # NVM
 export NVM_DIR="$HOME/.nvm"
