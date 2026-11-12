@@ -10,3 +10,6 @@ fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 source $ZSH/oh-my-zsh.sh
 
 source ~/.profile
+
+# Alephic tooling (ax, pnpm, fnm): managed by `ax doctor`; present only on machines that ran it.
+[ -f "$HOME/.alephix/.zshrc" ] && source "$HOME/.alephix/.zshrc"
