@@ -48,6 +48,8 @@ omz:
 
 link: stow-$(OS)
 	mkdir -p $(XDG_CONFIG_HOME)
+	bin/backup-stow-conflicts config $(XDG_CONFIG_HOME)
+	bin/backup-stow-conflicts zsh $(HOME)
 	stow -t $(XDG_CONFIG_HOME) config
 	stow -t $(HOME) zsh
 	bin/link-agent-config link
