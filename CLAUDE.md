@@ -22,7 +22,7 @@ If you spawn a sub-agent in a worktree (which lives at a different path), do not
 | Command | What it does |
 | --- | --- |
 | `make all` | Full install: Homebrew, Brewfile, Caskfile, oh-my-zsh, then `make link` |
-| `make link` | Stow `config/` → `$XDG_CONFIG_HOME` and `zsh/` → `$HOME`, then link shared agent instructions into Claude and Codex |
+| `make link` | Stow `config/` → `$XDG_CONFIG_HOME` and `zsh/` → `$HOME`, then link shared agent instructions into Claude and Codex. Regular files already in the way (e.g. a `~/.zshrc` written by an installer) are first renamed to `<file>.pre-dotfiles` by `bin/backup-stow-conflicts` |
 | `make unlink` | Reverse of `make link` |
 | `make brew-packages` | Install/update from `install/Brewfile` |
 | `make cask-apps` | Install/update from `install/Caskfile` (and VSCode extensions) |

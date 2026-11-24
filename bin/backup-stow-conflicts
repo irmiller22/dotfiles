@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+# Moves regular files that would block `stow` aside, so `make link` can replace
+# them with symlinks. Tools such as installers often create ~/.zshrc or
+# ~/.zprofile before the dotfiles are linked; stow refuses to overwrite them.
+#
+# Usage: backup-stow-conflicts <package-dir> <target-dir>
+#
+# Each conflicting file is renamed to <file>.pre-dotfiles (with a timestamp
+# suffix if that name is taken). Symlinks and directories are left alone: stow
+# already handles its own links and descends into existing directories.
+set -euo pipefail
+
+if [ "$#" -ne 2 ]; then
+  echo "Usage: $(basename "$0") <package-dir> <target-dir>" >&2
+  exit 2
+fi
+
+package_dir="${1%/}"
+target_dir="${2%/}"
+
+if [ ! -d "$package_dir" ]; then
+  echo "Not a directory: $package_dir" >&2
+  exit 1
+fi
+
+# True when any directory between target_dir and the file is a symlink. Stow
+# folds whole directories into one link (e.g. ~/.config/git -> repo), so a path
+# beneath a link is either the repo's own file or something stow will not touch.
+under_symlinked_dir() {
+  local dir
+  dir="$(dirname "$1")"
+  while [ "$dir" != "$target_dir" ] && [ "$dir" != "/" ] && [ "$dir" != "." ]; do
+    if [ -L "$dir" ]; then
+      return 0
+    fi
+    dir="$(dirname "$dir")"
+  done
+  return 1
+}
+
+while IFS= read -r -d '' source_path; do
+  relative_path="${source_path#"$package_dir"/}"
+  target_path="$target_dir/$relative_path"
+
+  if [ -L "$target_path" ] || [ ! -f "$target_path" ]; then
+    continue
+  fi
+
+  if [ "$target_path" -ef "$source_path" ] || under_symlinked_dir "$target_path"; then
+    continue
+  fi
+
+  backup_path="$target_path.pre-dotfiles"
+  if [ -e "$backup_path" ] || [ -L "$backup_path" ]; then
+    backup_path="$backup_path.$(date +%Y%m%d%H%M%S)"
+  fi
+
+  mv "$target_path" "$backup_path"
+  echo "Backed up $target_path -> $backup_path"
+done < <(find "$package_dir" \( -type f -o -type l \) -print0)
